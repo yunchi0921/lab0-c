@@ -75,7 +75,8 @@ bool q_insert_head(queue_t *q, char *s)
         if (newh) {
             // including null character
             newh->value = (char *) malloc(strlen(s) + 1);
-            strcpy(newh->value, s);
+            if (newh->value)
+                strcpy(newh->value, s);
             newh->next = q->head;
             q->head = newh;
             (q->qsize)++;
@@ -112,7 +113,8 @@ bool q_insert_tail(queue_t *q, char *s)
         newh = malloc(sizeof(list_ele_t));
         if (newh) {
             newh->value = (char *) malloc(strlen(s) + 1);
-            strcpy(newh->value, s);
+            if (newh->value)
+                strcpy(newh->value, s);
             newh->next = NULL;
             if (q->tail != NULL)
                 q->tail->next = newh;
