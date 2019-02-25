@@ -69,10 +69,10 @@ bool q_insert_head(queue_t *q, char *s)
         printf("quene is NULL\n");
         return false;
     } else {
-        newh = malloc(sizeof(list_ele_t));
+        newh = (list_ele_t *) malloc(sizeof(list_ele_t));
         /* Don't forget to allocate space for the string and copy it */
         /* What if either call to malloc returns NULL? */
-        if (newh) {
+        if (newh != NULL) {
             // including null character
             newh->value = (char *) malloc(strlen(s) + 1);
             if (newh->value)
@@ -87,6 +87,7 @@ bool q_insert_head(queue_t *q, char *s)
                 q->tail = newh;
             return true;
         } else {
+            // free(newh);
             return false;
         }
     }
@@ -110,8 +111,8 @@ bool q_insert_tail(queue_t *q, char *s)
         printf("queue is NULL\n");
         return false;
     } else {
-        newh = malloc(sizeof(list_ele_t));
-        if (newh) {
+        newh = (list_ele_t *) malloc(sizeof(list_ele_t));
+        if (newh != NULL) {
             newh->value = (char *) malloc(strlen(s) + 1);
             if (newh->value)
                 strcpy(newh->value, s);
@@ -128,6 +129,7 @@ bool q_insert_tail(queue_t *q, char *s)
             }
             return true;
         } else {
+            // free(newh);
             return false;
         }
     }
@@ -145,7 +147,7 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
     /* You need to fix up this code. */
     list_ele_t *prev = NULL;
-    if (q->qsize != 0 && q != NULL) {
+    if (q != NULL && q->qsize != 0) {
         if (sp != NULL) {
             memset(sp, '\0', bufsize);
             strncpy(sp, q->head->value, bufsize - 1);
