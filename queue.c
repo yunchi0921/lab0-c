@@ -50,7 +50,8 @@ void q_free(queue_t *q)
             free(prev->value);
             free(prev);
         }
-    }
+    } else
+        return;
     free(q);
 }
 
@@ -65,10 +66,7 @@ bool q_insert_head(queue_t *q, char *s)
 {
     list_ele_t *newh;
     /* What should you do if the q is NULL? */
-    if (!q) {
-        printf("quene is NULL\n");
-        return false;
-    } else {
+    if (q != NULL) {
         newh = (list_ele_t *) malloc(sizeof(list_ele_t));
         /* Don't forget to allocate space for the string and copy it */
         /* What if either call to malloc returns NULL? */
@@ -77,6 +75,10 @@ bool q_insert_head(queue_t *q, char *s)
             newh->value = (char *) malloc(strlen(s) + 1);
             if (newh->value)
                 strcpy(newh->value, s);
+            else {
+                free(newh);
+                return false;
+            }
             newh->next = q->head;
             q->head = newh;
             (q->qsize)++;
@@ -90,6 +92,9 @@ bool q_insert_head(queue_t *q, char *s)
             // free(newh);
             return false;
         }
+    } else {
+        printf("quene is NULL\n");
+        return false;
     }
 }
 
@@ -107,15 +112,16 @@ bool q_insert_tail(queue_t *q, char *s)
     /* Remember: It should operate in O(1) time */
     list_ele_t *newh;
     /*If the q is NULL*/
-    if (!q) {
-        printf("queue is NULL\n");
-        return false;
-    } else {
+    if (q != NULL) {
         newh = (list_ele_t *) malloc(sizeof(list_ele_t));
         if (newh != NULL) {
             newh->value = (char *) malloc(strlen(s) + 1);
             if (newh->value)
                 strcpy(newh->value, s);
+            else {
+                free(newh);
+                return false;
+            }
             newh->next = NULL;
             if (q->tail != NULL)
                 q->tail->next = newh;
@@ -132,6 +138,9 @@ bool q_insert_tail(queue_t *q, char *s)
             // free(newh);
             return false;
         }
+    } else {
+        printf("queue is NULL\n");
+        return false;
     }
 }
 
